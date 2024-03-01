@@ -39,8 +39,8 @@ function App() {
         // alert('Failed to fetch students');
         return;
       } else {
-        setStudents(existingStudents);
-        setAllStudents(existingStudents);
+        setStudents(existingStudents as Student[]);
+        setAllStudents(existingStudents as Student[]);
       }
     };
     getStudents();

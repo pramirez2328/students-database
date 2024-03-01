@@ -3,18 +3,20 @@ import { AddStudent, Student } from '../src/components/students/types';
 export const fetchStudents = async () => {
   try {
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/students`);
-    console.log('Response:', response);
+
     if (!response.ok || !response.headers.get('Content-Type')?.includes('application/json')) {
       // Print out the response text when an error occurs
       const text = await response.text();
       console.log('Response text:', text);
       throw new Error('Failed to fetch students');
     } else {
-      console.info('%c---Students were fetched from STUDENTS RECORDS!', 'color: green;');
-      return await response.json();
+      const totalStudents = await response.json();
+      console.log('Total students:', totalStudents.length);
+      console.info('%c---> Students were fetched from STUDENTS RECORDS!', 'color: green;');
+      return totalStudents;
     }
   } catch (error) {
-    console.error('Error: unable to fetch students', error);
+    console.error('Error: unable to fetch students--->', error);
     return error;
   }
 };

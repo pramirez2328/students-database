@@ -5,7 +5,6 @@ export const fetchStudents = async () => {
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/students`);
 
     if (!response.ok || !response.headers.get('Content-Type')?.includes('application/json')) {
-      // Print out the response text when an error occurs
       const text = await response.text();
       console.log('Response text:', text);
       throw new Error('Failed to fetch students');
@@ -32,6 +31,7 @@ export const deleteStudent = async (id: number) => {
     }
 
     console.info('%c---A student was deleted from STUDENTS RECORDS!', 'color: red;');
+    return response.json();
   } catch (error) {
     console.error(error);
   }
@@ -47,11 +47,13 @@ export const addStudent = async (student: AddStudent) => {
       body: JSON.stringify(student),
     });
     if (response.status !== 201) {
-      response.json().then((data) => alert(data.message));
+      const data = await response.json();
+      alert(data.message);
       throw new Error('Failed to add student');
+    } else {
+      console.log('%c---A student was added to STUDENTS RECORDS!', 'color: pink;');
+      return response.json();
     }
-    console.log('%c---A student was added to STUDENTS RECORDS!', 'color: pink;');
-    return response.json();
   } catch (error) {
     console.error('Error:', error);
   }

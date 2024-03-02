@@ -1,15 +1,21 @@
 import UpdateStudent from './UpdateStudent';
 import { Student } from './types';
+import Loading from '../Loading';
 
 function List({
   students,
   handleDelete,
   handleUpdateStudent,
+  loading,
 }: {
   students: Student[];
   handleDelete: (id: number) => void;
   handleUpdateStudent: (student: Student) => void;
+  loading: boolean;
 }) {
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div id='table-desktop' className='table-responsive'>
       <table className='table table-striped '>
@@ -66,6 +72,7 @@ function List({
           })}
         </tbody>
       </table>
+      {students.length === 0 && <p className='text-center mt-4'>No students found</p>}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { states, courses } from '../../util';
 import { updateStudent } from '../../http';
 import { Student, StudentInputs } from './types';
+import validation from '../validation';
 
 function UpdateStudent({
   currentStudent,
@@ -13,6 +14,7 @@ function UpdateStudent({
   currentStudent: Student;
   handleUpdateStudent: (student: Student) => void;
 }) {
+  const [validationMessage, setValidationMessage] = useState({ inputType: '', message: '' });
   const [show, setShow] = useState(false);
   const [student, setStudent] = useState<StudentInputs>({
     ...currentStudent,
@@ -28,26 +30,30 @@ function UpdateStudent({
   const handleClose = () => setShow(false);
 
   const handleUpdate = (studentObj: StudentInputs) => {
-    if (studentObj.phone[0] === '1') {
-      studentObj.phone = studentObj.phone.slice(1);
+    const validationObj = validation(student as StudentInputs);
+    if (validationObj.inputType !== 'valid') {
+      setValidationMessage(validationObj);
+    } else {
+      if (studentObj.phone[0] === '1') {
+        studentObj.phone = studentObj.phone.slice(1);
+      }
+
+      const newPhone = studentObj.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+
+      const newStudent: Student = {
+        _id: studentObj._id,
+        name: `${studentObj?.name} ${studentObj?.lastName}`,
+        courses: [...new Set(student.courses)] as string[],
+        gpa: studentObj.gpa,
+        email: studentObj.email,
+        phone: newPhone,
+        address: `${student.address}, ${student.city}, ${student.state}`,
+      };
+
+      updateStudent(newStudent);
+      handleUpdateStudent(newStudent);
+      setShow(false);
     }
-
-    const newPhone = studentObj.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-
-    const newStudent: Student = {
-      _id: studentObj._id,
-      name: `${studentObj?.name} ${studentObj?.lastName}`,
-      courses: [...new Set(student.courses)] as string[],
-      gpa: studentObj.gpa,
-      email: studentObj.email,
-      phone: newPhone,
-      address: `${student.address}, ${student.city}, ${student.state}`,
-    };
-
-    updateStudent(newStudent);
-    handleUpdateStudent(newStudent);
-
-    setShow(false);
   };
 
   return (
@@ -71,9 +77,11 @@ function UpdateStudent({
                 value={student?.name}
                 onChange={(e) => setStudent({ ...student, name: e.target.value })}
               />
-              <Form.Text id='studentName' className='form-subtitles'>
-                Your name must be at least 3 characters long.
-              </Form.Text>
+              {validationMessage.inputType === 'name' && (
+                <Form.Text id='studentName' className='form-subtitles text-danger'>
+                  Your name must be at least 3 characters long.
+                </Form.Text>
+              )}
             </div>
             <div className='form-title'>
               <Form.Label htmlFor='inputLastName'>Last Name:</Form.Label>
@@ -84,9 +92,11 @@ function UpdateStudent({
                 value={student?.lastName}
                 onChange={(e) => setStudent({ ...student, lastName: e.target.value })}
               />
-              <Form.Text id='studentLastName' className='form-subtitles'>
-                Your last name must be at least 3 characters long.
-              </Form.Text>
+              {validationMessage.inputType === 'lastName' && (
+                <Form.Text id='studentLastName' className='form-subtitles text-danger'>
+                  Your last name must be at least 3 characters long.
+                </Form.Text>
+              )}
             </div>
             <div className='d-flex justify-content-between col-12'>
               <div className='form-title col-6 pe-1'>
@@ -101,9 +111,11 @@ function UpdateStudent({
                   value={student?.gpa}
                   onChange={(e) => setStudent({ ...student, gpa: e.target.value })}
                 />
-                <Form.Text id='studentGPA' className='form-subtitles'>
-                  Your GPA must be between 2.0 and 4.0.
-                </Form.Text>
+                {validationMessage.inputType === 'gpa' && (
+                  <Form.Text id='studentGPA' className='form-subtitles text-danger'>
+                    GPA is required and must be between 2.0 and 4.0.
+                  </Form.Text>
+                )}
               </div>
               <div className='form-title col-6 ps-1'>
                 <Form.Label htmlFor='inputCourses'>Courses</Form.Label>
@@ -131,13 +143,11 @@ function UpdateStudent({
                 </Form.Control>
                 <Form.Text
                   id='studentCourses'
-                  className={`form-subtitles ${student?.courses?.length > 0 && 'added-course'}`}
+                  className={`form-subtitles ${student.courses.length !== 0 ? 'added-course' : 'text-danger'}`}
                 >
-                  {student?.courses?.length > 0
-                    ? `You have selected ${student?.courses?.length} course${
-                        student.courses.length === 1 ? '. You Must have at least one!' : 's.'
-                      }`
-                    : 'You have to select your courses again.'}
+                  {student.courses.length > 0
+                    ? `You have selected ${student.courses.length} course${student.courses.length === 1 ? '.' : 's.'}`
+                    : 'You must have at least one course!'}
                 </Form.Text>
               </div>
             </div>
@@ -150,9 +160,11 @@ function UpdateStudent({
                 value={student?.email}
                 onChange={(e) => setStudent({ ...student, email: e.target.value })}
               />
-              <Form.Text id='studentEmail' className='form-subtitles'>
-                Your email must be a valid email address.
-              </Form.Text>
+              {validationMessage.inputType === 'email' && (
+                <Form.Text id='studentEmail' className='form-subtitles text-danger'>
+                  Email is required and must be a valid email.
+                </Form.Text>
+              )}
             </div>
 
             <div className='d-flex justify-content-between col-12'>
@@ -165,9 +177,11 @@ function UpdateStudent({
                   value={student?.address}
                   onChange={(e) => setStudent({ ...student, address: e.target.value })}
                 />
-                <Form.Text id='studentAddress' className='form-subtitles'>
-                  It must be at least 5 characters long.
-                </Form.Text>
+                {validationMessage.inputType === 'address' && (
+                  <Form.Text id='studentAddress' className='form-subtitles text-danger'>
+                    Address is required and must be at least 7 characters long.
+                  </Form.Text>
+                )}
               </div>
               <div className='form-title col-6 ps-1'>
                 <Form.Label htmlFor='inputCity'>City:</Form.Label>
@@ -178,9 +192,11 @@ function UpdateStudent({
                   value={student?.city}
                   onChange={(e) => setStudent({ ...student, city: e.target.value })}
                 />
-                <Form.Text id='studentCity' className='form-subtitles'>
-                  It must be at least 3 characters long.
-                </Form.Text>
+                {validationMessage.inputType === 'city' && (
+                  <Form.Text id='studentCity' className='form-subtitles text-danger'>
+                    City is required and must be at least 3 characters long.
+                  </Form.Text>
+                )}
               </div>
             </div>
             <div className='d-flex justify-content-between col-12'>
@@ -193,9 +209,11 @@ function UpdateStudent({
                   value={student?.phone}
                   onChange={(e) => setStudent({ ...student, phone: e.target.value })}
                 />
-                <Form.Text id='studentPhone' className='form-subtitles'>
-                  valid format: 123-456-7890
-                </Form.Text>
+                {validationMessage.inputType === 'phone' && (
+                  <Form.Text id='studentPhone' className='form-subtitles text-danger'>
+                    Phone is required and must be at least 10 characters long.
+                  </Form.Text>
+                )}
               </div>
 
               <div className='form-title col-6 ps-1'>
@@ -213,9 +231,11 @@ function UpdateStudent({
                     </option>
                   ))}
                 </Form.Control>
-                <Form.Text id='studentState' className='form-subtitles'>
-                  Add the state again.
-                </Form.Text>
+                {validationMessage.inputType === 'state' && (
+                  <Form.Text id='studentState' className='form-subtitles text-danger'>
+                    State is required.
+                  </Form.Text>
+                )}
               </div>
             </div>
           </Form>

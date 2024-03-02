@@ -11,12 +11,14 @@ function Students({
   handleDelete,
   handleAddStudent,
   handleUpdateStudent,
+  loading,
 }: {
   students: Student[];
   value: string;
   handleDelete: (id: number) => void;
   handleAddStudent: (student: AddStudent) => void;
   handleUpdateStudent: (student: Student) => void;
+  loading: boolean;
 }) {
   const [filterStudents, setStudents] = useState(students);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -92,7 +94,12 @@ function Students({
           <button type='button' className='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
         </div>
       )}
-      <List students={filterStudents} handleDelete={handleDelete} handleUpdateStudent={handleUpdateStudent} />
+      <List
+        students={filterStudents}
+        handleDelete={handleDelete}
+        handleUpdateStudent={handleUpdateStudent}
+        loading={loading}
+      />
     </div>
   );
 }

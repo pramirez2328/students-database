@@ -3,9 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { states, courses } from '../../util';
-import { AddStudent } from './types';
+import { AddStudent, StudentInputs } from './types';
+import validation from '../validation';
 
 function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => void }) {
+  const [validationMessage, setValidationMessage] = useState({ inputType: '', message: '' });
   const [show, setShow] = useState(false);
   const [student, setStudent] = useState({
     name: '',
@@ -22,19 +24,10 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  const handleSaved = () => {
-    if (
-      student.name.length < 3 ||
-      student.lastName.length < 3 ||
-      student.email.length < 5 ||
-      student.address.length < 5 ||
-      student.city.length < 3 ||
-      student.state === '' ||
-      student.courses.length === 0 ||
-      student.phone.length < 10
-    ) {
-      alert('Please fill in all the fields correctly.');
-      return;
+  const handleSaved = async () => {
+    const validationObj = validation(student as StudentInputs);
+    if (validationObj.inputType !== 'valid') {
+      setValidationMessage(validationObj);
     } else {
       if (student.phone[0] === '1') {
         student.phone = student.phone.slice(1);
@@ -63,9 +56,9 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
         state: '',
         courses: [] as string[],
       });
+      setValidationMessage({ inputType: '', message: '' });
+      setShow(false);
     }
-
-    setShow(false);
   };
 
   return (
@@ -88,9 +81,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                 aria-describedby='studentName'
                 onChange={(e) => setStudent({ ...student, name: e.target.value })}
               />
-              <Form.Text id='studentName' className='form-subtitles'>
-                Your name must be at least 3 characters long.
-              </Form.Text>
+              {validationMessage.inputType === 'name' && (
+                <Form.Text id='studentName' className='form-subtitles text-danger'>
+                  Your name must be at least 3 characters long.
+                </Form.Text>
+              )}
             </div>
             <div className='form-title'>
               <Form.Label htmlFor='inputLastName'>Last Name:</Form.Label>
@@ -100,9 +95,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                 aria-describedby='studentLastName'
                 onChange={(e) => setStudent({ ...student, lastName: e.target.value })}
               />
-              <Form.Text id='studentLastName' className='form-subtitles'>
-                Your last name must be at least 3 characters long.
-              </Form.Text>
+              {validationMessage.inputType === 'lastName' && (
+                <Form.Text id='studentLastName' className='form-subtitles text-danger'>
+                  Your last name must be at least 3 characters long.
+                </Form.Text>
+              )}
             </div>
             <div className='d-flex justify-content-between col-12'>
               <div className='form-title col-6 pe-1'>
@@ -116,9 +113,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                   step={0.1}
                   onChange={(e) => setStudent({ ...student, gpa: e.target.value })}
                 />
-                <Form.Text id='studentGPA' className='form-subtitles'>
-                  Your GPA must be between 2.0 and 4.0.
-                </Form.Text>
+                {validationMessage.inputType === 'gpa' && (
+                  <Form.Text id='studentGPA' className='form-subtitles text-danger'>
+                    GPA is required and must be between 2.0 and 4.0.
+                  </Form.Text>
+                )}
               </div>
               <div className='form-title col-6 ps-1'>
                 <Form.Label htmlFor='inputCourses'>Courses</Form.Label>
@@ -148,11 +147,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                 </Form.Control>
                 <Form.Text
                   id='studentCourses'
-                  className={`form-subtitles ${student.courses.length > 0 && 'added-course'}`}
+                  className={`form-subtitles ${student.courses.length !== 0 ? 'added-course' : 'text-danger'}`}
                 >
                   {student.courses.length > 0
                     ? `You have selected ${student.courses.length} course${student.courses.length === 1 ? '.' : 's.'}`
-                    : 'You can select more than one course. You must have at least one!'}
+                    : 'You must have at least one course!'}
                 </Form.Text>
               </div>
             </div>
@@ -164,9 +163,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                 aria-describedby='studentEmail'
                 onChange={(e) => setStudent({ ...student, email: e.target.value })}
               />
-              <Form.Text id='studentEmail' className='form-subtitles'>
-                Your email must be a valid email address.
-              </Form.Text>
+              {validationMessage.inputType === 'email' && (
+                <Form.Text id='studentEmail' className='form-subtitles text-danger'>
+                  Enter a valid email!
+                </Form.Text>
+              )}
             </div>
 
             <div className='d-flex justify-content-between col-12'>
@@ -178,9 +179,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                   aria-describedby='studentAddress'
                   onChange={(e) => setStudent({ ...student, address: e.target.value })}
                 />
-                <Form.Text id='studentAddress' className='form-subtitles'>
-                  It must be at least 5 characters long.
-                </Form.Text>
+                {validationMessage.inputType === 'address' && (
+                  <Form.Text id='studentAddress' className='form-subtitles text-danger'>
+                    Address must be at least 7 characters long.
+                  </Form.Text>
+                )}
               </div>
               <div className='form-title col-6 ps-1'>
                 <Form.Label htmlFor='inputCity'>City:</Form.Label>
@@ -190,9 +193,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                   aria-describedby='studentCity'
                   onChange={(e) => setStudent({ ...student, city: e.target.value })}
                 />
-                <Form.Text id='studentCity' className='form-subtitles'>
-                  It must be at least 3 characters long.
-                </Form.Text>
+                {validationMessage.inputType === 'city' && (
+                  <Form.Text id='studentCity' className='form-subtitles text-danger'>
+                    City must be at least 3 characters long.
+                  </Form.Text>
+                )}
               </div>
             </div>
             <div className='d-flex justify-content-between col-12'>
@@ -204,9 +209,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                   aria-describedby='studentPhone'
                   onChange={(e) => setStudent({ ...student, phone: e.target.value })}
                 />
-                <Form.Text id='studentPhone' className='form-subtitles'>
-                  valid format: 123-456-7890
-                </Form.Text>
+                {validationMessage.inputType === 'phone' && (
+                  <Form.Text id='studentPhone' className='form-subtitles text-danger'>
+                    Phone number must be at least 10 characters long. (e.g. 123-456-7890)
+                  </Form.Text>
+                )}
               </div>
 
               <div className='form-title col-6 ps-1'>
@@ -224,6 +231,11 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                     </option>
                   ))}
                 </Form.Control>
+                {validationMessage.inputType === 'state' && (
+                  <Form.Text id='studentState' className='form-subtitles text-danger'>
+                    State is required.
+                  </Form.Text>
+                )}
               </div>
             </div>
           </Form>

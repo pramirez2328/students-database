@@ -4,7 +4,7 @@
   --font-color: rgb(11, 4, 90);
   --font-form-title-color: rgb(29, 9, 247);
   --font-form-subtitle-color: rgb(131, 131, 131);
-  --font-family: fantasy;
+  --font-family: 'Roboto', sans-serif;
 }
 
 a.title-nav {

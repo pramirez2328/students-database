@@ -138,7 +138,7 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
                   }
                   multiple
                 >
-                  <option value=''>Select course...</option>
+                  <option disabled>Select course...</option>
                   {courses.map((course, index) => (
                     <option key={index} value={course}>
                       {course}

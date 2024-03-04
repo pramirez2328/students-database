@@ -63,6 +63,10 @@ function Students({
     }
   };
 
+  const handleAlertOnClose = () => {
+    setAlert(false);
+  };
+
   let subtitle = '';
   if (filterBy === 'Choose...') {
     subtitle = '';
@@ -91,7 +95,13 @@ function Students({
       {alert && (
         <div className='alert alert-warning alert-dismissible fade show' role='alert'>
           rotate your device to view the full table or ...<strong>Scroll&#8594;</strong>
-          <button type='button' className='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          <button
+            type='button'
+            className='btn-close'
+            data-bs-dismiss='alert'
+            aria-label='Close'
+            onClick={handleAlertOnClose}
+          ></button>
         </div>
       )}
       <List

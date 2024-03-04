@@ -128,13 +128,13 @@ function UpdateStudent({
                     setStudent({
                       ...student,
                       courses: student.courses.includes(e.target.value)
-                        ? student.courses.filter((course) => course !== e.target.value)
-                        : [...student.courses, e.target.value],
+                        ? student.courses.filter((course) => course !== e.target.value?.trim())
+                        : [...student.courses, e.target.value?.trim()],
                     })
                   }
                   multiple
                 >
-                  <option value=''>Select course...</option>
+                  <option disabled>Select course...</option>
                   {courses?.map((course, index) => (
                     <option key={index} value={course}>
                       {course}

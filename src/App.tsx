@@ -36,7 +36,7 @@ function App() {
     if (newStudent) {
       setTimeout(() => {
         setNewStudent(null);
-      }, 3000);
+      }, 5000);
     }
   }, [newStudent]);
 
@@ -95,12 +95,15 @@ function App() {
     }
   };
 
+  const handleOnClosePopUp = () => {
+    setNewStudent(null);
+  };
   return (
     <div className='p-1 p-md-4'>
       <Nav handleSearch={handleSearch} />
       <p className='text-center mt-4 mb-0 title'>Boston University</p>
       <p className='text-center mb-4 mt-0 subtitle'>Students Records</p>
-      {newStudent && <PopUp student={newStudent} action={action} />}
+      {newStudent && <PopUp student={newStudent} action={action} onClose={handleOnClosePopUp} />}
       <Students
         students={students || []}
         handleDelete={handleDeleteStudent}

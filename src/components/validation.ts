@@ -8,7 +8,6 @@ const validation = (student: StudentInputs) => {
   } else if (student.gpa === '') {
     return { inputType: 'gpa', message: 'GPA is required' };
   } else if (student.email.length < 13 || !student.email.includes('@') || !student.email.includes('.')) {
-    console.log('student.email', student.email.length);
     return { inputType: 'email', message: 'Enter a valid email!' };
   } else if (student.address.length < 7) {
     return { inputType: 'address', message: 'Address must be at least 5 characters' };

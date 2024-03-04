@@ -103,15 +103,18 @@ function App() {
       <Nav handleSearch={handleSearch} />
       <p className='text-center mt-4 mb-0 title'>Boston University</p>
       <p className='text-center mb-4 mt-0 subtitle'>Students Records</p>
-      {newStudent && <PopUp student={newStudent} action={action} onClose={handleOnClosePopUp} />}
-      <Students
-        students={students || []}
-        handleDelete={handleDeleteStudent}
-        value={value}
-        handleAddStudent={handleAddStudent}
-        handleUpdateStudent={handleUpdateStudent}
-        loading={loading}
-      />
+      {newStudent ? (
+        <PopUp student={newStudent} action={action} onClose={handleOnClosePopUp} />
+      ) : (
+        <Students
+          students={students || []}
+          handleDelete={handleDeleteStudent}
+          value={value}
+          handleAddStudent={handleAddStudent}
+          handleUpdateStudent={handleUpdateStudent}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }

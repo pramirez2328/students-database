@@ -1,4 +1,12 @@
-function Nav({ handleSearch }: { handleSearch: (search: string) => void }) {
+function Nav({
+  handleSearch,
+  handleClear,
+  searchValue,
+}: {
+  handleSearch: (search: string) => void;
+  handleClear: () => void;
+  searchValue: string;
+}) {
   return (
     <div className='mt-4'>
       <nav className='navbar bg-body-tertiary'>
@@ -7,11 +15,15 @@ function Nav({ handleSearch }: { handleSearch: (search: string) => void }) {
           <div className='d-flex  col-8 col-md-5 col-xl-3' role='search'>
             <input
               className='form-control me-2'
-              type='search'
+              type='text'
               placeholder='Search'
               aria-label='Search'
+              value={searchValue}
               onChange={(e) => handleSearch(e.target.value)}
             />
+            <button className='btn btn-info' onClick={handleClear}>
+              clear
+            </button>
           </div>
         </div>
       </nav>

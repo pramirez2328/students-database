@@ -1,10 +1,9 @@
-:root {
+root {
   --font-size-filter: 0.875rem;
   --font-size-card: 0.775rem;
   --font-color: rgb(11, 4, 90);
   --font-form-title-color: rgb(29, 9, 247);
   --font-form-subtitle-color: rgb(131, 131, 131);
-  --font-family: 'Roboto', sans-serif;
 }
 
 a.title-nav {
@@ -13,7 +12,6 @@ a.title-nav {
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 5px;
-  font-family: var(--font-family);
 }
 
 .title {
@@ -24,7 +22,6 @@ a.title-nav {
 .subtitle {
   font-size: 1.1rem;
   color: var(--font-color);
-  font-family: var(--font-family);
 }
 
 div.input-group {
@@ -82,7 +79,7 @@ table tr td {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(46, 46, 46, 0.67);
+  background: rgba(6, 6, 6, 0.797);
   display: flex;
   justify-content: center;
   align-items: center;

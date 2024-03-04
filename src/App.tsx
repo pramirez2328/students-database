@@ -14,6 +14,7 @@ function App() {
   const [newStudent, setNewStudent] = useState<Student | null>(null);
   const [action, setAction] = useState('' as string);
   const [value, setValue] = useState('Choose...');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     setValue('Choose...');
@@ -70,6 +71,7 @@ function App() {
   };
 
   const handleSearch = (word: string) => {
+    setSearch(word);
     if (word.length === 0) {
       setStudents(allStudents);
       setValue('Choose...');
@@ -98,9 +100,14 @@ function App() {
   const handleOnClosePopUp = () => {
     setNewStudent(null);
   };
+
+  const handleClearSearch = () => {
+    setStudents(allStudents);
+    setSearch('');
+  };
   return (
     <div className='p-1 p-md-4'>
-      <Nav handleSearch={handleSearch} />
+      <Nav handleSearch={handleSearch} handleClear={handleClearSearch} searchValue={search} />
       <p className='text-center mt-4 mb-0 title'>Boston University</p>
       <p className='text-center mb-4 mt-0 subtitle'>Students Records</p>
       {newStudent ? (

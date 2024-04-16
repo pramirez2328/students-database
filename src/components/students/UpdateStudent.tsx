@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -58,9 +60,9 @@ function UpdateStudent({
 
   return (
     <>
-      <Button className='w-100' id='update-button' variant='primary' onClick={handleShow}>
-        update
-      </Button>
+      <div className='w-100' id='update-button' onClick={handleShow}>
+        <FontAwesomeIcon icon={faPencil} />
+      </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

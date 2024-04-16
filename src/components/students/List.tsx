@@ -1,4 +1,4 @@
-import UpdateStudent from './UpdateStudent';
+import StudentRecord from './StudentRecord';
 import { Student } from './types';
 import Loading from '../Loading';
 
@@ -42,32 +42,17 @@ function List({
             <th className='text-header' scope='col'>
               Address
             </th>
-            <th className='text-header' scope='col'></th>
-            <th className='text-header' scope='col'></th>
           </tr>
         </thead>
         <tbody className='text-center'>
           {students.map((student: Student) => {
             return (
-              <tr key={student?._id ? student._id : 0}>
-                <th scope='row'>{student?._id && ('' + student?._id).slice(-7)}</th>
-                <td>{student?.name}</td>
-                <td>{student?.courses.join(', ')}</td>
-                <td>{student?.gpa}</td>
-                <td>
-                  <a href={student?.email}>{student?.email}</a>
-                </td>
-                <td>{student?.phone}</td>
-                <td>{student?.address}</td>
-                <td>
-                  <button className='btn btn-danger' id='delete-button' onClick={() => handleDelete(student?._id)}>
-                    delete
-                  </button>
-                </td>
-                <td>
-                  <UpdateStudent currentStudent={student} handleUpdateStudent={handleUpdateStudent} />
-                </td>
-              </tr>
+              <StudentRecord
+                key={student?._id ? student._id : 0}
+                student={student}
+                handleDelete={handleDelete}
+                handleUpdateStudent={handleUpdateStudent}
+              />
             );
           })}
         </tbody>

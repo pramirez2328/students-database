@@ -1,9 +1,12 @@
-root {
-  --font-size-filter: 0.875rem;
+:root {
+  --font-size-filter: 0.95rem;
   --font-size-card: 0.775rem;
-  --font-color: rgb(11, 4, 90);
+  --font-color: rgb(2, 81, 177);
   --font-form-title-color: rgb(29, 9, 247);
   --font-form-subtitle-color: rgb(131, 131, 131);
+  --font-color-delete: rgb(239, 5, 5);
+  --font-color-update: rgb(5, 180, 2);
+  --row-padding: 1.5em;
 }
 
 a.title-nav {
@@ -42,20 +45,33 @@ tr th.text-header {
 }
 
 table .table-header {
-  background-color: rgb(166, 242, 249) !important;
+  background-color: var(--font-color);
 }
 
 .card-body p {
   font-size: var(--font-size-filter);
 }
 
-table tr td {
-  font-size: var(--font-size-filter);
+#student-row {
+  cursor: pointer;
 }
 
-#delete-button,
+#student-row td,
+#student-row th {
+  font-size: var(--font-size-filter);
+  padding: var(--row-padding);
+}
+
+#delete-button {
+  color: var(--font-color-delete);
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
 #update-button {
-  font-size: var(--font-size-card);
+  color: var(--font-color-update);
+  font-size: 1.7em;
+  cursor: pointer;
 }
 
 .form-title {

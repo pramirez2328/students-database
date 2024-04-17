@@ -10,9 +10,9 @@ function PopUp({ student, action, onClose }: { student: Student; action: string;
         role='alert'
       >
         <h5>
-          ID: {student?._id && ('' + student?._id).slice(-7)} was {action}!
+          {student.name} was {action}!
         </h5>
-        <h5>Name: {student.name}</h5>
+        <h5>ID: {student?._id && ('' + student?._id).slice(-7)} </h5>
         <button
           type='button'
           className='btn-close'

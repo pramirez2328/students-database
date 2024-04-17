@@ -81,13 +81,13 @@ function Students({
   }
 
   return (
-    <div>
-      <div className='d-flex flex-wrap col-12 justify-content-between p-2'>
+    <>
+      <div className='d-flex flex-wrap col-12 justify-content-between px-4'>
         <div>
           <Filter handleFilter={handleFilterBy} courses={courses} value={filterBy} />
           <h6>{subtitle}</h6>
         </div>
-        <div className='col-12 col-sm-6 col-md-3'>
+        <div className='col-12 col-sm-6 col-md-2'>
           <AddNewStudent addStudent={handleAddStudent} />
         </div>
       </div>
@@ -110,7 +110,7 @@ function Students({
         handleUpdateStudent={handleUpdateStudent}
         loading={loading}
       />
-    </div>
+    </>
   );
 }
 

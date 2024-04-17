@@ -62,8 +62,8 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
   };
 
   return (
-    <>
-      <Button className='w-100' variant='primary' onClick={handleShow}>
+    <div className='d-flex justify-content-end'>
+      <Button className='w-100' variant='danger' onClick={handleShow}>
         Add Student
       </Button>
 
@@ -249,7 +249,7 @@ function AddNewStudent({ addStudent }: { addStudent: (student: AddStudent) => vo
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 

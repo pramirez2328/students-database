@@ -17,8 +17,8 @@ function List({
     return <Loading />;
   }
   return (
-    <div id='table-desktop' className='table-responsive'>
-      <table className='table table-striped '>
+    <div id='table-desktop' className='table-responsive px-4'>
+      <table className='table table-striped'>
         <thead className='table-header'>
           <tr className='text-center'>
             <th className='text-header' scope='col'>

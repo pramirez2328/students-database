@@ -1,15 +1,30 @@
 :root {
   --font-size-filter: 0.95rem;
   --font-size-card: 0.775rem;
-  --font-color: rgb(2, 81, 177);
-  --font-form-title-color: rgb(29, 9, 247);
-  --font-form-subtitle-color: rgb(131, 131, 131);
+  --font-color: rgb(206, 0, 0);
+  --font-color-subtitle: rgba(95, 93, 93, 0.773);
   --font-color-delete: rgb(239, 5, 5);
   --font-color-update: rgb(5, 180, 2);
-  --row-padding: 1.5em;
 }
 
-a.title-nav {
+.top {
+  background-color: white;
+  position: sticky;
+  z-index: 1000;
+  top: 0;
+  padding-bottom: 10px;
+}
+
+.logo {
+  width: 4em;
+  margin-right: 1.5em;
+}
+
+button.clear {
+  background-color: rgba(251, 0, 0, 0.152);
+}
+
+h2.title-nav {
   font-size: 1.2rem;
   color: var(--font-color);
   text-transform: uppercase;
@@ -19,29 +34,29 @@ a.title-nav {
 
 .title {
   font-size: 2.5rem;
-  color: var(--font-color);
+  color: var(--font-color-subtitle);
 }
 
 .subtitle {
   font-size: 1.1rem;
-  color: var(--font-color);
+  color: var(--font-color-subtitle);
 }
 
 div.input-group {
   width: fit-content;
 }
 
+.input-group label {
+  background-color: rgb(208, 1, 1);
+  color: white;
+}
 .input-group label,
 .input-group select {
   font-size: var(--font-size-filter);
 }
 
-#table-desktop table {
-  border-color: var(--font-color);
-}
-
 tr th.text-header {
-  color: var(--font-color);
+  color: var(--font-color-subtitle);
 }
 
 table .table-header {
@@ -56,15 +71,14 @@ table .table-header {
   cursor: pointer;
 }
 
-#student-row td,
-#student-row th {
+#student-row .fields,
+#student-row .fields {
   font-size: var(--font-size-filter);
-  padding: var(--row-padding);
 }
 
 #delete-button {
   color: var(--font-color-delete);
-  font-size: 1.5em;
+  font-size: 1.7em;
   cursor: pointer;
 }
 
@@ -75,12 +89,12 @@ table .table-header {
 }
 
 .form-title {
-  color: var(--font-form-title-color);
+  color: var(--font-color-subtitle);
   margin-bottom: 1em;
 }
 
 .form-title .form-subtitles {
-  color: var(--font-form-subtitle-color);
+  color: var(--font-color-subtitle);
   font-size: var(--font-size-card);
 }
 
@@ -99,4 +113,18 @@ table .table-header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.overlay .alert {
+  padding: 7em;
+}
+
+/* query for mobile */
+@media (max-width: 768px) {
+  .overlay {
+    align-items: flex-end;
+  }
+  .overlay .alert {
+    padding: 4em;
+  }
 }

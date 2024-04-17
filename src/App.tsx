@@ -37,7 +37,7 @@ function App() {
     if (newStudent) {
       setTimeout(() => {
         setNewStudent(null);
-      }, 5000);
+      }, 3000);
     }
   }, [newStudent]);
 
@@ -105,11 +105,15 @@ function App() {
     setStudents(allStudents);
     setSearch('');
   };
+
   return (
-    <div className='p-1 p-md-4'>
-      <Nav handleSearch={handleSearch} handleClear={handleClearSearch} searchValue={search} />
-      <p className='text-center mt-4 mb-0 title'>Boston University</p>
-      <p className='text-center mb-4 mt-0 subtitle'>Students Records</p>
+    <div className='p-0'>
+      <div className='top'>
+        <Nav handleSearch={handleSearch} handleClear={handleClearSearch} searchValue={search} />
+        <p className='text-center mt-4 mb-0 title'>Boston University</p>
+        <p className='text-center mb-4 mt-0 subtitle'>Students Records</p>
+      </div>
+
       {newStudent ? (
         <PopUp student={newStudent} action={action} onClose={handleOnClosePopUp} />
       ) : (
